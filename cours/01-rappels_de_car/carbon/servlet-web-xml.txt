@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <display-name>ALTEA</display-name>
+    <servlet>
+        <servlet-name>MaServlet</servlet-name>
+        <servlet-class>com.altea.ALTEAServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MaServlet</servlet-name>
+        <url-pattern>/altea</url-pattern>
+    </servlet-mapping>
+</web-app>

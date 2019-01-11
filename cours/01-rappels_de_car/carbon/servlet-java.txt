@@ -1,0 +1,21 @@
+public class ALTEAServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String nom = request.getParameter("nom");
+        String prenom = request.getParameter("prenom");
+
+        out.println("&lt;html&gt;&lt;body&gt;");
+        out.println("Hello " + prenom + " " + nom);
+        out.println("&lt;/body&gt;&lt;/html&gt;");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        // Nothing to do
+    }
+
+}
