@@ -1,0 +1,103 @@
+body{
+    background:url("../images/miage_background.png");
+    background-repeat: repeat-x;
+    background-position: top;
+}
+
+.miage_aside_logo {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    z-index: 30;
+    right: 120px;
+    bottom: 12px;
+    -webkit-user-select: none;
+    background-image: url("../images/41216_Miage-lille_V5_1_.png");
+    background-size:80px;
+    background-repeat: no-repeat;
+}
+
+.reveal section img {
+    border: none;
+    box-shadow: none;
+}
+
+
+.slide-with-bg .miage_aside_logo,
+.slide-with-bg-light .miage_aside_logo{
+    visibility: hidden;
+}
+
+.slide-with-bg .slides{
+    width: 100%;
+}
+
+.full-width .slides{
+    width: 100% !important;
+}
+
+.slide-with-bg h2 {
+    background-color: white;
+    width: 100%;
+    bottom: 20px;
+    text-align: left;
+    padding-left: 20px;
+    position: absolute;
+}
+
+.slide-with-bg-light h2 {
+    background-color: #5E5E5F;
+    width: 100%;
+    bottom: 20px;
+    text-align: left;
+    padding-left: 20px;
+    position: absolute;
+}
+
+.slide-with-bg ul,
+.slide-with-bg-light ul {
+    position: absolute;
+    bottom: 120px;
+    left: 10px;
+}
+
+.slide-with-bg ul li{
+    background-color: rgba(255,255,255,0.8);
+    width: fit-content;
+    list-style: none;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.slide-with-bg-light ul li{
+    background-color: rgba(94,94,95,0.8);
+    width: fit-content;
+    list-style: none;
+    margin-bottom: 5px;
+    padding: 5px;
+    color: white;
+}
+
+/**
+ * Alignement centré du contenu des slides
+ * Permet de supprimer le flag 'center: true' de reveal, qui est calculé en JS, et ne
+ * gère pas bien les changements de height entre les slides....
+ */
+.reveal.slide .slides > section, .reveal.slide .slides > section > section {
+    min-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    position: absolute !important;
+    top: 0 !important;
+    align-items: center !important;
+    font-size: 25pt;
+}
+
+code {
+    background-color: lightgray;
+}
+
+.reveal small {
+    vertical-align: baseline;
+}
