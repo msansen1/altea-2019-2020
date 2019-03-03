@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>ALTEA - Asynchronism</title>
+
+		<meta name="description" content="ALTEA - Asynchronism">
+		<meta name="author" content="Julien WITTOUCK <julien@codeka.io>">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="../css/theme/white.css" id="theme">
+
+		<link rel="stylesheet" href="../css/miage-lille.css"/>
+
+        <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>ALTEA</h1>
+					<h2><i class="em em-alarm_clock"></i> Asynchronism</h2>
+					<p>
+						<a href="http://github.com/Juwit">Julien WITTOUCK</a>
+					</p>
+				</section>
+
+				<section>
+					<h3><i class="fab fa-uber"></i> UBER</h3>
+					<img src="images/Microservice-Architecture-Of-UBER.png" style="width: 50%"/>
+				</section>
+
+				<section>
+					<h2>Problématiques : </h2>
+					<p>Exécuter des traitements longs sans bloquer l'utilisateur <i class="em em-stopwatch"></i></p>
+					<p>Exécuter des traitements parallèlement plutôt que séquentiellement</p>
+					<ul>
+						<li>Envois de mails <i class="em em-email"></i></li>
+						<li>Impression de documents <i class="em em-printer"></i></li>
+					</ul>
+					<p>Ne pas bloquer l'utilisateur si l'imprimante n'a plus de papier !</p>
+				</section>
+
+
+				<section class="stack">
+					<section>
+						<h2>Concurrence</h2>
+						<img src="images/fry.png"/>
+						<p>Comment exécuter plusieurs choses en même temps ?</p>
+					</section>
+					<section>
+						<h2>Le CPU <i class="fas fa-microchip"></i></h2>
+						<p>Un CPU exécute un seul process à la fois</p>
+						<p>Le système d'exploitation switche entre les process pour leur donner le CPU</p>
+					</section>
+					<section>
+						<h2>Les CPUs multi-coeurs <i class="fas fa-microchip"></i><i class="fas fa-microchip"></i><i class="fas fa-microchip"></i><i class="fas fa-microchip"></i></h2>
+						<p>Exécution de plusieurs process en parallèle</p>
+						<p>Comment exécuter des choses en parallèle dans un même process ?</p>
+					</section>
+					<section>
+						<h2>Multithreading</h2>
+						<p>Permet l'exécution de plusieurs tâches (threads) dans un même programme</p>
+						<p>Les threads se partagent la mémoire du process<i class="fas fa-microchip"></i></p>
+					</section>
+					<section>
+						<img src="images/cost_of_io.png"/>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h2>En Java <i class="em em-coffee"></i></h2>
+						<p>Un des premiers langages à rendre le multithreading "facile"</p>
+						<p>La gestion du multithreading se fait à l'aide des classes <code>java.util.concurrent.*</code></p>
+					</section>
+
+					<section>
+						<h2>Tomcat <i class="em em-cat"></i></h2>
+						<ul>
+							<li>instancie un <code>Thread</code> java par connexion HTTP</li>
+							<li>voyez par vous-même dans votre code: <code>System.out.println(Thread.currentThread().getName());</code></li>
+							<li>les <code>Threads</code> sont maintenus en vie dans un <code>pool</code></li>
+							<li>le nombre de thread est paramétrable pour booster <i class="em em-rocket"></i> Tomcat (200 par défaut)</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2><img src="images/spring-by-pivotal.png" style="height: 1.5em; vertical-align: middle;"/></h2>
+						<ul>
+							<li>Les beans Spring sont des singletons par défaut!</li>
+							<li>La mémoire entre les threads est partagée!</li>
+							<li>Ne pas utiliser d'attributs de classe : les valeurs seraient partagées entre tous les threads/requêtes HTTP !</li>
+						</ul>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3>Instancier des threads</h3>
+						<p>implémenter l'interface Runnable...</p>
+						<img src="carbon/runnable.png"/>
+					</section>
+					<section>
+						<h3>Instancier des threads</h3>
+						<p>... en java 8 avec une lambda</p>
+						<img src="carbon/new-thread.png"/>
+						<p><i class="em em-warning"></i> à bien utiliser la méthode <code>start</code></p>
+						<p>la méthode <code>run</code> exécuterait le code donné dans le thread "courant"</p>
+					</section>
+					<section>
+						<img src="images/fry.png"/>
+						<p>Comment récupérer un résultat ?</p>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3><a href="https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/Future.html">Future</a>,
+							<a href="https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/Callable.html">Callable</a>
+							et <a href="https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/ExecutorService.html">ExecutorService</a></h3>
+						<p>depuis Java <i class="em em-coffee"></i> 5 ! (si, si !)</p>
+						<ul>
+							<li><code>Future&lt;T&gt;</code> représente un résultat asynchrone</li>
+							<li><code>Callable&lt;T&gt;</code> représente une tâche retournant un résultat</li>
+							<li><code>ExecutorService</code> gère l'exécution de tâches asynchones <code>Runnable</code> ou <code>Callable&lt;T&gt;</code></li>
+						</ul>
+					</section>
+					<section>
+						<h3>ExecutorService</h3>
+						<p>Exécution d'un <code>Callable</code></p>
+						<img src="carbon/executor-service.png"/>
+					</section>
+					<section>
+						<h3>ExecutorService</h3>
+						<p>Exécution de plusieurs <code>Callable</code></p>
+						<img src="carbon/multi-callables.png"/>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html">CompletableFuture</a></h3>
+						<p>depuis Java <i class="em em-coffee"></i> 8</p>
+						<ul>
+							<li><code>CompletableFuture&lt;T&gt;</code> est une Future</li>
+							<li>Propose des méthodes de chaînage (proche des Promesses en ECMAScript)</li>
+							<li>Propose des méthodes <code>static</code> pour exécuter des <code>Runnable</code>/<code>Callable</code> sans <code>ExecutorService</code></li>
+						</ul>
+					</section>
+					<section>
+						<h3>CompletableFuture</h3>
+						<img src="carbon/completable-future.png"/>
+					</section>
+					<section>
+						<h3>CompletableFuture & Streams</h3>
+						<p>Gérer le chargement asynchrone d'une liste</p>
+
+					</section>
+					<section>
+						<h3>CompletableFuture</h3>
+						<p>Taille du pool de threads par défaut</p>
+						<p>Nb CPU - 1</p>
+						<p>Permet de laisser un CPU disponible au Thread principal et à l'OS</p>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3>Avec les streams Java 8</h3>
+						<p>Possibilité d'exécuter des streams Java en parallèle - Proche de l'asynchronisme</p>
+						<p>En séquentiel :</p>
+						<img src="carbon/stream-simple.png"/>
+					</section>
+					<section>
+						<h3>Avec les streams Java 8</h3>
+						<p>En synchrone, chaque opération se fait dans le thread principal</p>
+						<img src="carbon/stream-simple-logs.png"/>
+					</section>
+					<section>
+						<h3>Avec les streams Java 8</h3>
+						<p>En parallèle</p>
+						<img src="carbon/stream-parallel.png"/>
+					</section>
+					<section>
+						<h3>Avec les streams Java 8</h3>
+						<p>En parallèle, chaque opération se fait dans le pool de thread. Le thread principal assure lui aussi sa part du travail</p>
+						<img src="carbon/stream-parallel-logs.png"/>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3>Quel intéret pour nous?</h3>
+						<img src="images/fry.png"/>
+						<p>Je n'ai pas besoin de Threads, Tomcat <i class="em em-cat"></i> est déjà multithreadé</p>
+					</section>
+					<section>
+						<h3>Quel intéret pour nous?</h3>
+						<p>Tomcat alloue un thread pour chaque requête entrante. Nous avons besoin de threads supplémentaires pour :</p>
+						<ul>
+							<li>Composition d'appels d'API</li>
+							<li>Exécution de tâches longues</li>
+							<li>Parallélisme au lieu de séquencement</li>
+						</ul>
+					</section>
+					<section>
+						<img src="images/api-calls-seq.png"/>
+					</section>
+					<section>
+						<img src="images/api-calls-async.png"/>
+					</section>
+					<section>
+						<h2>Gain de temps de traitement global !</h2>
+						<img src="images/gatsby.png"/>
+					</section>
+				</section>
+
+				<section style="text-align:left;">
+					<h1>Fin du cours</h1>
+					<p>Cours suivant : <br/>
+						<a href="../08-high-availability/08-high-availability.html">High-Availability & micro-services patterns</a>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+                controlsBackArrows: 'faded',
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide'
+			});
+
+		</script>
+
+		<aside class="miage_aside_logo"></aside>
+
+    </body>
+</html>

@@ -1,0 +1,12 @@
+2019-03-01 08:45:56 --- [commonPool-worker-3] RestTemplate : HTTP GET http://localhost:8080/pokemon-types/3
+2019-03-01 08:45:56 --- [               main] RestTemplate : HTTP GET http://localhost:8080/pokemon-types/2
+2019-03-01 08:45:56 --- [commonPool-worker-5] RestTemplate : HTTP GET http://localhost:8080/pokemon-types/1
+2019-03-01 08:45:56 --- [               main] RestTemplate : Accept=[application/json, application/*+json]
+2019-03-01 08:45:56 --- [commonPool-worker-5] RestTemplate : Accept=[application/json, application/*+json]
+2019-03-01 08:45:56 --- [commonPool-worker-3] RestTemplate : Accept=[application/json, application/*+json]
+2019-03-01 08:45:56 --- [commonPool-worker-5] RestTemplate : Response 200 OK
+2019-03-01 08:45:56 --- [               main] RestTemplate : Response 200 OK
+2019-03-01 08:45:56 --- [commonPool-worker-3] RestTemplate : Response 200 OK
+2019-03-01 08:45:56 --- [commonPool-worker-5] RestTemplate : Reading to [PokemonType]
+2019-03-01 08:45:56 --- [               main] RestTemplate : Reading to [PokemonType]
+2019-03-01 08:45:56 --- [commonPool-worker-3] RestTemplate : Reading to [PokemonType]

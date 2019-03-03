@@ -1,0 +1,12 @@
+2019-03-01 08:43:31 --- [main] RestTemplate : HTTP GET http://localhost:8080/pokemon-types/1
+2019-03-01 08:43:31 --- [main] RestTemplate : Accept=[application/json, application/*+json]
+2019-03-01 08:43:31 --- [main] RestTemplate : Response 200 OK
+2019-03-01 08:43:31 --- [main] RestTemplate : Reading to [com.miage.altea.tp.pokemon_ui.pokemonTypes.bo.PokemonType]
+2019-03-01 08:43:32 --- [main] RestTemplate : HTTP GET http://localhost:8080/pokemon-types/2
+2019-03-01 08:43:32 --- [main] RestTemplate : Accept=[application/json, application/*+json]
+2019-03-01 08:43:32 --- [main] RestTemplate : Response 200 OK
+2019-03-01 08:43:32 --- [main] RestTemplate : Reading to [com.miage.altea.tp.pokemon_ui.pokemonTypes.bo.PokemonType]
+2019-03-01 08:43:33 --- [main] RestTemplate : HTTP GET http://localhost:8080/pokemon-types/3
+2019-03-01 08:43:33 --- [main] RestTemplate : Accept=[application/json, application/*+json]
+2019-03-01 08:43:33 --- [main] RestTemplate : Response 200 OK
+2019-03-01 08:43:33 --- [main] RestTemplate : Reading to [com.miage.altea.tp.pokemon_ui.pokemonTypes.bo.PokemonType]
