@@ -1,0 +1,107 @@
+:source-highlighter: pygments
+:prewrap!:
+
+:icons: font
+
+:iconfont-cdn: https://use.fontawesome.com/releases/v5.4.2/css/all.css
+
+:toc: left
+:toclevels: 4
+
+:linkattrs:
+
+:sectlinks:
+:sectanchors:
+:sectnums:
+
+:experimental:
+
+:stem:
+
+= ALTEA - TP 10 - Rendu !
+
+== Présentation et objectifs
+
+Le but est de finaliser le développement de notre architecture "à la microservice".
+
+Continuez le link:../10-practice/10-tp-practice.html[TP précédent].
+
+.Notre architecture !
+image::images/battle-architecture.png[]
+
+
+TIP: Pendant ce TP, nous faisons évoluer les TP précédents !
+
+== Modalités de rendu
+
+Le rendu se fait via vos repositories Github.
+
+Vous devez push votre code directement sur les repositories qui vous sont affectés.
+
+Les repositories seront clôturés le 5 avril à 20h. Vous avez donc encore un peu de temps pour finaliser votre projet.
+
+Le projet est bien constitué de 4 parties :
+
+* pokemon-type-api
+* trainer-api
+* pokemon-ui
+* battle-api
+
+NOTE: Le tp "handcraft" ne fait pas partie du rendu.
+
+== Critères de notation
+
+|===
+| API | Fonctionnalité | Points
+
+| pokemon-type-api
+| types de pokemon traduits (en+fr)
+| 2
+
+| trainer-api
+| gestion des trainers (GET/POST) avec stockage BDD
+| 2
+
+| trainer-api
+| API sécurisée en Basic HTTP login + mot de pase
+| 1
+
+| pokemon-ui
+| affichage du pokedex traduit
+| 2
+
+| pokemon-ui
+| IHM sécurisée (login avec les comptes de trainers)
+| 2
+
+| pokemon-ui
+| affichage des trainers et de leurs pokémons
+| 2
+
+// socle commun : 11 points
+
+| battle-api
+| gestion des combats (création/attaque)
+| 5
+
+| battle-api
+| testing !
+| 1
+
+| pokemon-ui
+| intégration de l'écran de jeu
+| 2
+
+| toutes API
+| qualité globale de code
+| 1
+
+// devs supplémentaires : 9 points
+
+|===
+
+== Amélioration continue
+
+Aidez moi à m'améliorer !
+
+Pour ce faire, remplissez ce https://goo.gl/forms/aoiIrwLQcyujKCwS2[sondage] (c'est anonyme, lâchez vous!)
