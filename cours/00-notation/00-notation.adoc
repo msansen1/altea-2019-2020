@@ -1,0 +1,125 @@
+:source-highlighter: pygments
+:prewrap!:
+
+:icons: font
+
+:toc: left
+:toclevels: 4
+
+:linkattrs:
+
+:sectlinks:
+:sectanchors:
+:sectnums:
+
+:experimental:
+
+:stem:
+
+= ALTEA - Critères de notation et modalités de rendu.
+
+== Présentation et objectifs
+
+Ce document présente les critères de notation du module et les modalités de rendu.
+
+== Modalités de rendu
+
+Le rendu se fait via vos repositories Github.
+
+Vous devez push votre code directement sur les repositories qui vous sont affectés.
+
+Les repositories seront clôturés le 5 avril à 20h. Vous avez donc encore un peu de temps pour finaliser votre projet.
+
+Le projet est bien constitué de 5 parties :
+
+* pokemon-type-api
+* trainer-api
+* game-ui
+* configuration-api
+* battle-api
+
+Il est attendu, dans chaque composant :
+
+* le code source
+* les tests
+* un README.md détaillant :
+** la configuration
+** le déploiement sur le cloud (URL d'accès)
+
+
+NOTE: Le premier tp "handcraft" ne fait pas partie du rendu.
+
+== Critères de notation
+
+|===
+| API | Fonctionnalité | Points
+
+| pokemon-type-api
+| types de pokemon traduits (en+fr)
+| 1
+
+| pokemon-type-api
+| types de pokemon triés
+| 1
+
+| pokemon-type-api
+| GET /?types=
+| 1
+
+| pokemon-type-api
+| TU & Qualité de code
+| 0.5
+
+| trainer-api
+| gestion des trainers (GET)
+| 1
+
+| trainer-api
+| gestion des trainers (POST) avec stockage BDD
+| 1
+
+| trainer-api
+| API sécurisée en Basic HTTP login + mot de pase
+| 1
+
+| trainer-api
+| TU & Qualité de code
+| 0.5
+
+| game-ui
+| affichage du pokedex traduit
+| 2
+
+| game-ui
+| IHM sécurisée (login avec les comptes de trainers)
+| 2
+
+| game-ui
+| affichage des trainers et de leurs pokémons
+| 2
+
+| game-ui
+| TU & Qualité de code
+| 0.5
+
+// socle commun : 13,5 points
+
+| battle-api
+| gestion des combats (création/attaque)
+| 3
+
+| battle-api
+| TU & Qualité de code
+| 0.5
+
+| configuration-api
+| gestion de configuration
+| 2
+
+| cloud
+| déploiement sur le cloud fonctionnel
+| 1
+
+// devs supplémentaires : 6.5 points
+
+|===
