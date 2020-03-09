@@ -1,0 +1,289 @@
+:source-highlighter: pygments
+:prewrap!:
+
+:icons: font
+
+:toc: left
+:toclevels: 4
+
+:linkattrs:
+
+:sectlinks:
+:sectanchors:
+:sectnums:
+
+:experimental:
+
+:stem:
+
+= ALTEA - TP 8 - Cloud
+
+== Présentation et objectifs
+
+Le but de ce TP est de mettre en place quelques mécaniques pour les développements orientés cloud.
+
+Nous allons :
+
+* exposer des métriques avec spring-boot-actuator
+* déployer un serveur de configuration Spring
+* y brancher nos applications
+
+NOTE: Nous n'allons pas tester l'intégration avec Prometheus/Elastic/Zipkin, mais simplement préparer nos applications pour.
+
+== Exposition de métriques
+
+L'exposition de métriques pour nos applications se fait avec spring-boot-actuator.
+
+=== Dépendance maven
+
+Ajoutez la dépendance maven suivante dans vos projets :
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+----
+
+NOTE: Ajouter la dépendance suffit à spring-boot pour configurer des route par défaut.
+
+Démarrez ensuite vos applications.
+Vous devriez y observer des logs dédié à actuator au démarrage :
+----
+ INFO 28827 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+TRACE 28827 --- [           main] s.b.a.e.w.s.WebMvcEndpointHandlerMapping : Register "{GET /actuator/health, produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}" to java.lang.Object org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$OperationHandler.handle(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.String>)
+TRACE 28827 --- [           main] s.b.a.e.w.s.WebMvcEndpointHandlerMapping : Register "{GET /actuator/health/**, produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}" to java.lang.Object org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$OperationHandler.handle(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.String>)
+TRACE 28827 --- [           main] s.b.a.e.w.s.WebMvcEndpointHandlerMapping : Register "{GET /actuator/info, produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}" to java.lang.Object org.springframework.boot.actuate.endpoint.web.servlet.AbstractWebMvcEndpointHandlerMapping$OperationHandler.handle(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.String>)
+TRACE 28827 --- [           main] s.b.a.e.w.s.WebMvcEndpointHandlerMapping : Register "{GET /actuator, produces [application/vnd.spring-boot.actuator.v3+json || application/vnd.spring-boot.actuator.v2+json || application/json]}" to public java.util.Map<java.lang.String, java.util.Map<java.lang.String, org.springframework.boot.actuate.endpoint.web.Link>> org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping$WebMvcLinksHandler.links(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+----
+
+Consultez enfin pour vos services le endpoint "/actuator/health" :
+
+[source,javascript]
+.GET localhost:8080/actuator/health
+----
+{"status":"UP"}
+----
+
+=== Activer d'autres endpoints
+
+spring-boot-actuator propose de nombreux endpoints par défaut.
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-endpoints
+
+Exposez au moins les endpoints suivants :
+
+* `env`
+* `metrics`
+
+Allez jetter un oeil aux endpoints suivants :
+
+* http://localhost:8080/actuator/env
+* http://localhost:8080/actuator/metrics
+* http://localhost:8080/actuator/metrics/process.cpu.usage
+
+== Configuration externalisée - serveur de configuration
+
+Nous allons dans cette partie créer un nouveau projet : `configuration-api`.
+Ce projet va servir les fichiers de configuration des autres projets existants.
+
+Créez votre projet sur https://classroom.github.com/a/sVBlmQNM[Github].
+
+=== Dépendances Maven
+
+Pour installer les dépendances `spring-cloud` dans des projets `spring-boot`, il faut rajouter dans notre `pom.xml` un
+bloc `dependencyManagement`:
+
+[source,xml]
+.pom.xml
+----
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Hoxton.SR2</version> <!--1-->
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+----
+<1>: La version actuelle est `Hoxton.SR2`, les version disponibles sont documentées https://spring.io/projects/spring-cloud#learn[ici]
+
+Une fois le bloc `dependencyManagement` installé, nous pouvons ajouter notre dépendance.
+
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+----
+
+=== Classe de démarrage
+
+Créez une classe dans votre projet `configuration-api` pour démarrer un serveur Spring-Boot (comme d'habitude) :
+
+[source,java]
+.com.miage.altea.configuration.ConfigurationApi.java
+----
+package com.miage.altea.configuration;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ConfigurationApi {
+    public static void main(String... args){
+        SpringApplication.run(ConfigurationApi.class, args);
+    }
+}
+----
+
+Ajoutez l'annotation `@EnableConfigServer` sur votre classe, pour activer le serveur de configuration!
+
+=== Configuration de notre api de configuration !
+
+Par convention, le `spring-cloud-config-server` tourne sur le port 8888.
+Modifiez vos properties pour que votre `configuration-api` écoute ce port.
+
+[source]
+.application.properties
+----
+server.port=8888
+----
+
+==== configuration-repository
+
+Par défaut, le config-server utilise un repository git pour lire sa configuration.
+Nous allons créer un repository dans lequel notre configuration sera publiée.
+
+Ce repository contiendra l'ensemble des fichiers de configuration de nos api (fichier properties), et contiendra simplement un répertoire par api.
+
+Créez un nouveau repository github en suivant https://classroom.github.com/a/Ce_rvL86[ce lien].
+
+NOTE: le repository créé contient un répertoire avec la configuration de `pokemon-type-api`.
+
+Créez dans ce repo un répertoire pour chaque API :
+
+* trainer-api
+* game-ui
+* battle-api
+
+Et déposez dans chaque répertoire votre fichier de configuration `application.properties` propre à chaque api/service.
+
+==== configuration-api
+
+De retour dans le projet `configuration-api`, nous allons maintenant lui indiquer quel repository git il doit consommer.
+
+Pour ce faire, modifiez le fichier `application.properties` de votre `configuration-api` :
+
+[source]
+.application.properties
+----
+# <1>
+spring.cloud.config.server.git.uri=
+# <2>
+spring.cloud.config.server.git.search-paths=/{application}/
+----
+<1>  mettez ici le lien vers votre repo git configuration-repository
+<2> le search-path permet d'indiquer au spring-boot config server de chercher les configurations dans un répertoire
+contenant le nom de l'application cible.
+
+==== tests (manuels / Postman)
+
+Une fois tout ça configuré, démarrez votre `configuration-api`.
+
+Vous devriez pouvoir consulter votre configuration en invoquant les urls suivantes :
+
+* http://localhost:8888/pokemon-type-api/application.properties
+* http://localhost:8888/trainer-api/application.properties
+* http://localhost:8888/game-ui/application.properties
+* http://localhost:8888/battle-api/application.properties
+
+
+==== Déploiement
+
+Déployez votre serveur de configuration sur Heroku.
+
+== Configuration externalisée - connexion au serveur de configuration
+
+Maintenant que notre serveur de configuration est en place, nous allons pouvoir y connecter nos API existantes.
+
+NOTE: Ce travail est à faire sur l'ensemble des projets `pokemon-type-api`, `trainer-api`, `game-ui` et `battle-api`.
+
+=== Dépendances Maven
+
+Ajoutez les dépendances maven suivantes :
+
+[source,xml]
+.pom.xml
+----
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Hoxton.SR2</version> <!--1-->
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-config-client</artifactId> <!-- 1 -->
+    </dependency>
+
+</dependencies>
+----
+<1> on utilise le `spring-cloud-config-client`
+
+=== Configuration
+
+Comme la configuration est maintenant gérée dans notre `configuration-api`, les fichiers properties peuvent être supprimées.
+
+Supprimez vos fichiers `application.properties`.
+
+Il faut cependant indiquer à spring, qu'il doit aller chercher sa configuration dans `configuration-api`.
+
+Créez un fichier `bootstrap.properties` dans le répertoire `src/main/resources` :
+
+[source]
+.bootstrap.properties
+----
+# <1>
+spring.application.name=pokemon-type-api
+# <2>
+spring.cloud.config.uri=
+----
+<1> On indique à spring le nom de l'application courante. Remplacez par le nom de votre api.
+Attention, ce nom doit être le même que le nom du répertoire dans lequel vous avez stocké les fichiers de properties
+dans votre repository de configuration.
+<2> On indique à spring l'url de notre `configuration-api`. Remplacez par l'url de votre `configuration-api` chez Heroku,
+ou par http://localhost:8888
+
+=== Démarrage
+
+Démarrez vos API comme d'habitude. Vous devriez voir les logs suivants au tout début de vos logs :
+
+[source]
+----
+INFO 9628 --- [main] c.c.c.ConfigServicePropertySourceLocator : Fetching config from server at : http://localhost:8888
+INFO 9628 --- [main] c.c.c.ConfigServicePropertySourceLocator : Located environment: name=pokemon-type-api, profiles=[default], label=null, version=2dd75bead7e69bf7f01cb0468f6047bd283d6f1c, state=null
+INFO 9628 --- [main] b.c.PropertySourceBootstrapConfiguration : Located property source: [BootstrapPropertySource {name='bootstrapProperties-configClient'}, BootstrapPropertySource {name='bootstrapProperties-https://github.com/ALTEA-2019-2020/configuration-repo-starter/pokemon-type-api/application.properties'}]
+----
+
+On voit bien que la configuration est chargée depuis notre `configuration-api` !
+
+
+
+
+

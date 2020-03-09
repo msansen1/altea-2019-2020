@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>ALTEA - Cloud</title>
+
+		<meta name="description" content="ALTEA - High Availability">
+		<meta name="author" content="Julien WITTOUCK <julien@codeka.io>">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="../css/reveal.css">
+		<link rel="stylesheet" href="../css/theme/white.css" id="theme">
+
+		<link rel="stylesheet" href="../css/miage-lille.css"/>
+
+        <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>ALTEA</h1>
+					<h2><i class="em em-cloud"></i> Patterns orientés cloud</h2>
+				</section>
+
+				<section>
+					<h3><i class="fab fa-uber"></i> UBER</h3>
+					<img src="images/Microservice-Architecture-Of-UBER.png" style="width: 50%"/>
+				</section>
+
+				<section>
+					<h2>Problématiques : </h2>
+					<p>Comment gérer la configuration des services ?</p>
+					<p>Comment analyser l'enchaînement des appels ?</p>
+					<p>Comment connaître l'état de l'application ?</p>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3>Patterns d'architecture</h3>
+						<h4>Configuration externalisée</h4>
+					</section>
+					<section>
+						<h4>Configuration externalisée</h4>
+						<p>Permet d'exécuter un service dans multiples environnements sans modifications</p>
+						<ul>
+							<li>Accès BDD</li>
+							<li>Gestion sécurité</li>
+						</ul>
+						<p>Plusieurs stratégies</p>
+						<ul>
+							<li>Variables d'environnement</li>
+							<li>Profiles : un fichier de configuration par profil</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Configuration externalisée chez Spring</h4>
+						<ol>
+							<li>command-line arguments</li>
+							<li>OS env-vars</li>
+							<li>application-{profile}.properties</li>
+							<li>application.properties</li>
+						</ol>
+						<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config">official doc</a>
+					</section>
+					<section>
+						<h4>Configuration externalisée chez Spring</h4>
+						<h5>serveur de configuration</h5>
+						<ul>
+							<li>la configuration exposée par une API REST</li>
+							<li>au démarrage, Spring effectue un appel REST pour charger sa configuration</li>
+							<li>l'API REST stocke ses données dans GIT</li>
+						</ul>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3>Patterns d'architecture</h3>
+						<h4>Centralisation des logs et correlation</h4>
+					</section>
+					<section>
+						<h4>Centralisation des logs</h4>
+						<p>Dans un environnement load-balancé, les requêtes d'un utilisateur peuvent être traitées par n'importe quel serveur.</p>
+						<p>Dans un environnement cloud, on ne peut pas forcément accéder aux machines pour consulter les fichiers de log.</p>
+						<p>Dans un environnement conteneurisé, on ne peut pas forcément accéder aux logs des containers (kubernetes...)</p>
+					</section>
+					<section>
+						<h4>Centralisation des logs</h4>
+						<p>On envoie tous les logs dans un service dédié</p>
+						<ul>
+							<li>un service lit les fichiers de log et envoie les lignes au serveur</li>
+							<li>les logs sont indexés et conservés</li>
+							<li>une IHM permet de les consulter</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Centralisation des logs</h4>
+						<img src="images/elk.png"/>
+					</section>
+					<section>
+						<h4>Centralisation des logs</h4>
+						<p>Produit connus :</p>
+						<p>Stack "ELK"</p>
+						<ul>
+							<li>Elasticsearch : indexation des logs, et recherche "full-text"</li>
+							<li>Logstash : Parsing des fichiers de logs, et envoi à Elasticsearch</li>
+							<li>Kibana : IHM de consultation d'Elasticsearch : recherche, dashboards...</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Correlation des logs</h4>
+						<p>Observer la séquencialité des appels</p>
+						<p>Observer les logs d'un même utilisateur</p>
+						<p>Trouver des points de contention</p>
+						<p>Aide au debugging</p>
+					</section>
+					<section>
+						<h4>Correlation des logs</h4>
+						<p>Correlation des appels via des Headers HTTP</p>
+						<p>Création d'un id pour chaque requête reçue</p>
+						<p>Transmission de l'id à chaque requête envoyée</p>
+						<p>Envoi des traces à un outil centralisé</p>
+					</section>
+					<section>
+						<h4>Correlation des logs</h4>
+						<p><a href="https://spring.io/projects/spring-cloud-sleuth">Spring Cloud Sleuth</a> permet de gérer ces correllation (il modifie les RestTemplate pour transmettre ces fameux headers).</p>
+						<p><a href="https://zipkin.io/">Zipkin</a>  permet de collecter/consulter ce type d'information</p>
+					</section>
+					<section>
+						<h4>Correlation des logs</h4>
+						<img src="images/zipkin.png"/>
+					</section>
+				</section>
+
+				<section class="stack">
+					<section>
+						<h3>Patterns d'architecture</h3>
+						<h4>Métriques</h4>
+					</section>
+					<section>
+						<h4>Métriques</h4>
+						<p>Observer la santé des services</p>
+						<ul>
+							<li>healthcheck : est-ce que le service répond, est-ce que la BDD est bien connectée</li>
+							<li>trace : récupérer les dernières requêtes HTTP traitées</li>
+							<li>metrics : consommations mémoire / CPU</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Métriques</h4>
+						<p>Exposition des métriques dans une application spring-boot</p>
+						<p>Utilisation de <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html">spring-boot-actuator</a></p>
+						<p>Expose des métriques basiques de nos applications/api</p>
+					</section>
+					<section>
+						<h4>Métriques</h4>
+						<h5>Collecte des métriques et exploitation</h5>
+						<p>Comme pour les logs, les métriques peuvent être envoyées à un serveur dédié pour être consultées</p>
+						<p>Centralisation des métriques</p>
+					</section>
+					<section>
+						<h4>Métriques</h4>
+						<p>Même principe que pour les logs</p>
+						<img src="images/prometheus.png"/>
+					</section>
+					<section>
+						<h4>Métriques</h4>
+						<p>Produit connus :</p>
+						<p>Stack "Prometheus/Grafana"</p>
+						<ul>
+							<li>Prometheus : Concentration des métriques (BDD time/series)</li>
+							<li>Grafana : Affichage sous forme de graphes, altering</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Métriques</h4>
+						<p>Agir en fonction des métriques</p>
+						<p>Pris en charge par les orchestrateurs de containers (kubernetes par exemple)</p>
+						<ul>
+							<li>healthcheck KO => redémarrer le service</li>
+							<li>consommation mémoire / CPU élevée => déployer une instance supplémentaire du service (scale up)</li>
+						</ul>
+					</section>
+
+				</section>
+
+				<section>
+					<h2>TP</h2>
+					<img src="../images/leonidas.png"/>
+					<p>
+						<a href="./10-tp-cloud.html">Patterns cloud <i class="em em-cloud"></i></a>
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				controls: true,
+                controlsBackArrows: 'faded',
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'slide'
+			});
+
+		</script>
+
+		<aside class="miage_aside_logo"></aside>
+
+    </body>
+</html>
