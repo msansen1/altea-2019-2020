@@ -1616,11 +1616,11 @@ Pour rappel, le user par défaut de spring-security est <code>user</code> et le 
 
     <i class="conum" data-value="2"></i><b>(2)</b>
 
-    <i class="conum" data-value="3"></i><b>(3)</b>
+     <i class="conum" data-value="3"></i><b>(3)</b> <i class="conum" data-value="5"></i><b>(5)</b>
     <span class="tok-n">PasswordEncoder</span> <span class="tok-nf">passwordEncoder</span><span class="tok-o">(){</span>
     <span class="tok-o">}</span>
 
-    <i class="conum" data-value="4"></i><b>(4)</b>
+     <i class="conum" data-value="4"></i><b>(4)</b> <i class="conum" data-value="5"></i><b>(5)</b>
     <span class="tok-kd">public</span> <span class="tok-n">UserDetailsService</span> <span class="tok-nf">userDetailsService</span><span class="tok-o">()</span> <span class="tok-o">{</span>
     <span class="tok-o">}</span>
 <span class="tok-o">}</span>
@@ -1644,6 +1644,10 @@ Pour rappel, le user par défaut de spring-security est <code>user</code> et le 
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>Le <code>UserDetailsService</code> doit appeler le <code>TrainerService</code> pour récupérer ses objets. On peut faire une classe interne, ou même une lambda !</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Il faut indiquer à Spring de charger ces deux méthodes. Ajoutez l&#8217;annotation <code>@Bean</code> sur ces méthodes.</td>
 </tr>
 </table>
 </div>
@@ -1979,7 +1983,7 @@ En particulier le token <code>CSRF</code> dont nous aurons besoin pour tous les 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-03-02 10:32:32 +0100
+Last updated 2020-03-16 09:51:08 +0100
 </div>
 </div>
 <style>

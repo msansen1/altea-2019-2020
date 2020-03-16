@@ -617,11 +617,11 @@ public class SecurityConfig {
 
     //<2>
 
-    //<3>
+    //<3> <5>
     PasswordEncoder passwordEncoder(){
     }
 
-    //<4>
+    //<4> <5>
     public UserDetailsService userDetailsService() {
     }
 }
@@ -630,6 +630,7 @@ public class SecurityConfig {
 <2> Il nous faut probablement un `TrainerService` pour récupérer nos dresseurs
 <3> Le password encoder est en BCrypt
 <4> Le `UserDetailsService` doit appeler le `TrainerService` pour récupérer ses objets. On peut faire une classe interne, ou même une lambda !
+<5> Il faut indiquer à Spring de charger ces deux méthodes. Ajoutez l'annotation `@Bean` sur ces méthodes.
 
 Une fois tout cela implémenté, allez faire un tour sur votre IHM http://localhost:9000[,window="_blank"], vous devriez pouvoir vous connecter
 avec les nom de dresseurs et leur mot de passe !
