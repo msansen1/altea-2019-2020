@@ -1,0 +1,179 @@
+:source-highlighter: pygments
+:prewrap!:
+
+:icons: font
+
+:toc: left
+:toclevels: 4
+
+:linkattrs:
+
+:sectlinks:
+:sectanchors:
+:sectnums:
+
+:experimental:
+
+:stem:
+
+= ALTEA - TP 9 - Practice even more !
+
+== Présentation et objectifs
+
+Le but est de continuer le développement de notre architecture "à la microservice".
+
+Nous allons aujourd'hui :
+
+* continuer (ou commencer) le développpement de notre micro-service de combat !
+
+.Notre architecture !
+image::images/battle-architecture.png[]
+
+TIP: Pendant ce TP, nous faisons évoluer les TP précédents !
+
+== `game-ui`
+
+=== Ecran de combat !
+
+NOTE: Cette partie nécessite d'avoir un projet `battle-api` complètement fonctionnel.
+
+NOTE: Cette partie n'est pas prise en compte dans la notation.
+
+Pour vous faciliter le travail, j'ai développé pour vous un écran simple de combat, ainsi qu'un javascript (vanilla), qui
+requête en AJAX l'api `/battles` et permet de jouer un combat !
+
+.Un combat en cours !
+image::images/combat.png[]
+
+Le JS est disponible ici : link:battle.js[battle.js,window="_blank"].
+
+L'image de fond est disponible ici : link:images/battle_background.png[battle_background.png,window="_blank"].
+
+L'écran de jeu est défini en template mustache via le code suivant :
+
+[source,xml]
+.fight.html
+----
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Pokemon Manager</title>
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h1 class="pt-md-5 pb-md-5">Arena <img src="/icons/fist.png" style="width: 32px;"/></h1>
+
+    <h2>{{trainerName}} Vs {{opponentName}}</h2>
+
+    <div class="gameZone" style="width: 800px; height: 480px; position:relative; margin: auto; background: url('/images/battle_background.png')">
+
+        <img id="{{trainerName}}-pokemon-img" style="position:absolute;  width: 300px; left: 0px; bottom: 0px;"/>
+        <img id="{{opponentName}}-pokemon-img" style="position:absolute; width: 200px; right: 100px; top: 100px;"/>
+
+        <div class="card bg-light" style="width: 18rem; position:absolute; bottom:10px; right: 10px; ">
+            <div class="card-body">
+                <h5 class="card-title" id="{{trainerName}}-pokemon-name"></h5>
+                <p>
+                    <div class="progress">
+                        <div class="progress-bar" id="{{trainerName}}-pokemon-hp" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </p>
+
+                <button class="btn btn-danger" id="attack-btn" onclick="playerCommand('ATTACK');">Attack</button>
+            </div>
+        </div>
+
+        <div class="card bg-light" style="width: 18rem; position:absolute; top: 10px; left: 10px;">
+            <div class="card-body">
+                <h5 class="card-title" id="{{opponentName}}-pokemon-name"></h5>
+                <p>
+                    <div class="progress">
+                        <div class="progress-bar" id="{{opponentName}}-pokemon-hp" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card card-body" id="message" style="width: 800px; margin: auto;">
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+<script src="/scripts/battle.js" type="application/ecmascript"></script>
+
+<script type="application/ecmascript">
+    $( document ).ready(function() {
+        startBattle("{{trainerName}}", "{{opponentName}}");
+    });
+
+</script>
+
+</body>
+</html>
+----
+
+Le template a besoin de 2 variables : `trainerName` et `opponentName`.
+
+Le fichier `battle.js` doit être déposé dans `src/main/resources/static/scripts`.
+L'image de fond doit être déposée dans `src/main/resources/static/images`.
+
+Le combat utilise `Bootstrap`, `JQuery` et `Animate.css`.
+
+==== Le controller
+
+Le controlleur servant cet écran peut être codé de cette manière :
+
+[source,java,linenums]
+.BattleController.java
+----
+@GetMapping("/fight/{opponent}")
+public ModelAndView fight(Principal principal, @PathVariable String opponent){
+    var modelAndView = new ModelAndView("fight");
+
+    modelAndView.addObject("trainerName", principal.getName());
+    modelAndView.addObject("opponentName", opponent);
+
+    return modelAndView;
+}
+----
+
+De cette manière, on peut déclencher un combat en se rendant sur l'URL http://localhost:9000/fight/Misty[,window="_blank"]
+
+== Cros Origin sur Battle-API
+
+Le script `battle.js` appelle l'API battle. Cette API est appelée en `Cross-Origin`.
+Du point de vue du navigateur web (firefox/chrome), l'origine est composée :
+
+* du scheme (ex: http/https)
+* de l'hôte (ex: localhost)
+* du port (ex: 9000/8080...)
+
+Lorsqu'une requête est émise vers une autre origine que celle de la page affichée, le navigateur
+exécute tout d'abord une requête `HEAD`, pour demander au serveur s'il accepte d'être appelé
+depuis une autre origine que lui-même. C'est une mécanique de sécurité permettant d'éviter
+les appels indésirables sur une API.
+
+Nous devons donc activer le support du `Cross-Origin` sur notre API battle, pour qu'elle
+accepte les requêtes provenant du navigateur web.
+
+NOTE: Nous n'avons à gérer le `Cross-Origin` uniquement quand c'est un navigateur qui est la source d'une requête.
+Pas besoin de `Cross-Origin` pour les appels entre APIs.
+
+=== Configuration
+
+La configuration du `Cross-Origin` en Spring se fait en ajoutant l'annotation `@CrossOrigin` sur les controlleurs ou méthodes
+à authoriser.
+Ajoutez cette annotation sur le controlleur de votre `battle-api`.

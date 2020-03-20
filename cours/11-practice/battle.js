@@ -8,10 +8,13 @@ let opponentCurrentPokemon;
 
 const skipAnimations = false;
 
+const battleApiUrl = "http://localhost:8082";
+
 async function startBattle(a, b){
     trainerName = a;
     opponentName = b;
-    const result = await $.post(`/api/battles?trainer=${trainerName}&opponent=${opponentName}`);
+
+    const result = await $.post(`${battleApiUrl}/battles?trainer=${trainerName}&opponent=${opponentName}`);
     battle = result;
 
     await showMessage(`Starting battle between ${trainerName} and ${opponentName} !`);
@@ -22,27 +25,25 @@ async function startBattle(a, b){
     trainerCurrentPokemon = battle.trainer.team[0];
     opponentCurrentPokemon = battle.opponent.team[0];
 
-    await enterPokemon(trainerName, trainerCurrentPokemon, false);
-    await enterPokemon(opponentName, opponentCurrentPokemon, true);
+    await pokemonEntersBattle(trainerName, trainerCurrentPokemon, false);
+    await pokemonEntersBattle(opponentName, opponentCurrentPokemon, true);
 
     await refreshBattle();
 }
 
-async function enterPokemon(trainerName, pokemon, front){
+async function pokemonEntersBattle(trainerName, pokemon, frontView){
     await showMessage(`${trainerName}'s ${pokemon.type.name} enters battle !`);
-    const pokemonSprite = front ? pokemon.type.sprites.front_default : pokemon.type.sprites.back_default;
+
+    const pokemonSprite = frontView ? pokemon.type.sprites.front_default : pokemon.type.sprites.back_default;
     const pokemonImageSelector = `[id='${trainerName}-pokemon-img']`;
     $(pokemonImageSelector).attr("src", pokemonSprite);
     $(`#${trainerName}-pokemon-name`).text(pokemon.type.name);
 
-    updatePokemon(trainerName, pokemon);
-
     await animateCss(pokemonImageSelector, "zoomIn");
-    updatePokemon(trainerName, pokemon);
+    updatePokemonView(trainerName, pokemon);
 }
 
-
-function updatePokemon(trainerName, pokemon){
+function updatePokemonView(trainerName, pokemon){
     let pokemonHpBar = $(`[id='${trainerName}-pokemon-hp']`);
 
     pokemonHpBar.text(pokemon.hp);
@@ -51,10 +52,10 @@ function updatePokemon(trainerName, pokemon){
     pokemonHpBar.css("width",`${pokemon.hp * 100 / pokemon.maxHp}%` );
 }
 
-async function exitPokemon(trainerName, pokemon){
+async function pokemonExitsBattle(trainerName, pokemon){
     await showMessage(`${trainerName}'s ${pokemon.type.name} exits battle !`);
 
-    updatePokemon(trainerName, pokemon);
+    updatePokemonView(trainerName, pokemon);
 
     const pokemonImageSelector = `[id='${trainerName}-pokemon-img']`;
     return animateCss(pokemonImageSelector, "zoomOut");
@@ -64,80 +65,55 @@ function checkBattleEnd(){
     // battle ends if all pokemons of a trainer are KO !
     if(battle.trainer.team.every(poke => poke.ko === true)){
         // show the battle end
-        showMessage("You Lost !");
+        showMessage(`${trainerName} lost the battle !`);
         // exitPokemon(trainerName, trainerCurrentPokemon);
         return true;
     }
     if(battle.opponent.team.every(poke => poke.ko === true)){
-        showMessage("You win !");
+        showMessage(`${trainerName} win the battle !`);
         // exitPokemon(opponentName, opponentCurrentPokemon);
         return true;
     }
 }
 
-async function showMessage(message){
-    const selector = "#message";
-    console.log(message);
-    $(selector).text("");
-
-    if(skipAnimations){
-        $(selector).text(message);
-        return;
-    }
-
-    return new Promise(function(resolve, reject){
-        let i = 0;
-        let timer = setInterval(() => {
-            if(i<message.length){
-                $(selector).append(message.charAt(i));
-                i++;
-            }
-            else{
-                clearInterval(timer);
-                resolve();
-            }
-        }, 50);
-    });
-}
-
 async function refreshBattle(){
-    updatePokemon(trainerName, trainerCurrentPokemon);
-    updatePokemon(opponentName, opponentCurrentPokemon);
+    updatePokemonView(trainerName, trainerCurrentPokemon);
+    updatePokemonView(opponentName, opponentCurrentPokemon);
 
     if(checkBattleEnd()){
         return;
     }
 
-    let firstAliveTrainerPokemon = battle.trainer.team.find(poke => poke.alive === true);
-    let firstAliveOpponentPokemon = battle.opponent.team.find(poke => poke.alive === true);
-
-    if(firstAliveTrainerPokemon.id !== trainerCurrentPokemon.id){
-        // first alive pokemon changed !
-        // means that the pokemon has changed (change action, or KO !)
+    // checking for ko
+    if(trainerCurrentPokemon.ko){
         await showMessage(`${trainerName}'s ${trainerCurrentPokemon.type.name} is KO !`);
-        await exitPokemon(trainerName, trainerCurrentPokemon);
+        await pokemonExitsBattle(trainerName, trainerCurrentPokemon);
+
+        const firstAliveTrainerPokemon = battle.trainer.team.find(poke => poke.ko !== true);
         trainerCurrentPokemon = firstAliveTrainerPokemon;
-        await enterPokemon(trainerName, trainerCurrentPokemon, false);
+        await pokemonEntersBattle(trainerName, trainerCurrentPokemon, false);
     }
 
-    if(firstAliveOpponentPokemon.id !== opponentCurrentPokemon.id){
-        // first alive pokemon changed !
-        // means that the pokemon has changed (change action, or KO !)
+    if(opponentCurrentPokemon.ko){
         await showMessage(`${opponentName}'s ${opponentCurrentPokemon.type.name} is KO !`);
-        await exitPokemon(opponentName, opponentCurrentPokemon);
+        await pokemonExitsBattle(opponentName, opponentCurrentPokemon);
+
+        const firstAliveOpponentPokemon = battle.opponent.team.find(poke => poke.ko !== true);
         opponentCurrentPokemon = firstAliveOpponentPokemon;
-        await enterPokemon(opponentName, opponentCurrentPokemon, true);
+        await pokemonEntersBattle(opponentName, opponentCurrentPokemon, true);
     }
-    trainerCurrentPokemon = firstAliveTrainerPokemon;
-    opponentCurrentPokemon = firstAliveOpponentPokemon;
 
     updateControls();
 
     if(battle.opponent.nextTurn){
-    // wait a bit, then execute an IA turn if necessary
+        await showMessage(`This is ${opponentName}'s turn.`);
+        // wait a bit, then execute an IA turn if necessary
         setTimeout(() => {
             iaTurn();
         }, 1000);
+    }
+    else{
+        await showMessage(`This is ${trainerName}'s turn.`);
     }
 }
 
@@ -190,7 +166,7 @@ async function animateAttack(attackingTrainer, defendingTrainer){
 }
 
 async function sendAttack(trainerName){
-    const result = await $.post(`/api/battles/${battle.uuid}/${trainerName}/attack`);
+    const result = await $.post(`${battleApiUrl}/battles/${battle.uuid}/${trainerName}/attack`);
     updateBattleData(result);
 }
 
@@ -198,19 +174,6 @@ function updateBattleData(data){
     battle = data;
     trainerCurrentPokemon = battle.trainer.team.find(poke => poke.id === trainerCurrentPokemon.id);
     opponentCurrentPokemon = battle.opponent.team.find(poke => poke.id === opponentCurrentPokemon.id);
-}
-
-function zoomOut(element, callback){
-    const node = document.querySelector(element);
-    node.classList.add('animated', "zoomOut");
-
-    function handleAnimationEnd() {
-        node.removeEventListener('animationend', handleAnimationEnd);
-
-        if (typeof callback === 'function') callback()
-    }
-
-    node.addEventListener('animationend', handleAnimationEnd)
 }
 
 async function animateCss(element, animationName){
@@ -223,17 +186,37 @@ async function animateCss(element, animationName){
 
         console.log(`starting animation ${animationName} on ${element}`);
 
-        const node = document.querySelector(element);
-        node.classList.add('animated', animationName);
+        const node = $(element);
+        node.removeClass()
+            .addClass('animated ' + animationName)
+            .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
+                node.removeClass();
+                resolve();
+            });
+    });
+}
 
-        function handleAnimationEnd() {
-            console.log(`ended animation ${animationName} on ${element}`);
+async function showMessage(message){
+    const selector = "#message";
+    console.log(message);
+    $(selector).text("");
 
-            node.classList.remove('animated', animationName);
-            node.removeEventListener('animationend', handleAnimationEnd);
-            return resolve();
-        }
+    if(skipAnimations){
+        $(selector).text(message);
+        return;
+    }
 
-        node.addEventListener('animationend', handleAnimationEnd);
+    return new Promise(function(resolve, reject){
+        let i = 0;
+        let timer = setInterval(() => {
+            if(i<message.length){
+                $(selector).append(message.charAt(i));
+                i++;
+            }
+            else{
+                clearInterval(timer);
+                resolve();
+            }
+        }, 50);
     });
 }

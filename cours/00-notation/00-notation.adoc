@@ -30,24 +30,26 @@ Vous devez push votre code directement sur les repositories qui vous sont affect
 
 Les repositories seront clôturés le 5 avril à 20h. Vous avez donc encore un peu de temps pour finaliser votre projet.
 
-Le projet est bien constitué de 5 parties :
+Le projet est bien constitué de 4 parties :
 
 * pokemon-type-api
 * trainer-api
 * game-ui
-* configuration-api
 * battle-api
 
 Il est attendu, dans chaque composant :
 
 * le code source
 * les tests
+* une collection postman (à poser dans `src/test/resources`)
 * un README.md détaillant :
 ** la configuration
-** le déploiement sur le cloud (URL d'accès)
+** le déploiement sur le cloud si cela a été fait (URL d'accès)
 
 
 NOTE: Le premier tp "handcraft" ne fait pas partie du rendu.
+
+NOTE: Les critères de notation ont été adaptés pour tenir compte de la tenue des cours à distance.
 
 == Critères de notation
 
@@ -67,8 +69,8 @@ NOTE: Le premier tp "handcraft" ne fait pas partie du rendu.
 | 1
 
 | pokemon-type-api
-| TU & Qualité de code
-| 0.5
+| TU & Qualité de code / Collection Postman
+| 1
 
 | trainer-api
 | gestion des trainers (GET)
@@ -83,8 +85,8 @@ NOTE: Le premier tp "handcraft" ne fait pas partie du rendu.
 | 1
 
 | trainer-api
-| TU & Qualité de code
-| 0.5
+| TU & Qualité de code / Collection Postman
+| 1
 
 | game-ui
 | affichage du pokedex traduit
@@ -92,7 +94,7 @@ NOTE: Le premier tp "handcraft" ne fait pas partie du rendu.
 
 | game-ui
 | IHM sécurisée (login avec les comptes de trainers)
-| 2
+| 2.5
 
 | game-ui
 | affichage des trainers et de leurs pokémons
@@ -100,26 +102,14 @@ NOTE: Le premier tp "handcraft" ne fait pas partie du rendu.
 
 | game-ui
 | TU & Qualité de code
-| 0.5
-
-// socle commun : 13,5 points
+| 1
 
 | battle-api
 | gestion des combats (création/attaque)
-| 3
+| 3.5
 
 | battle-api
-| TU & Qualité de code
-| 0.5
-
-| configuration-api
-| gestion de configuration
-| 2
-
-| cloud
-| déploiement sur le cloud fonctionnel
+| TU & Qualité de code / Collection Postman
 | 1
-
-// devs supplémentaires : 6.5 points
 
 |===

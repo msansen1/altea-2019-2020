@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>ALTEA - Critères de notation et modalités de rendu.</title>
+<title>ALTEA - TP 9 - Practice even more !</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,13 +439,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>ALTEA - Critères de notation et modalités de rendu.</h1>
+<h1>ALTEA - TP 9 - Practice even more !</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_présentation_et_objectifs">1. Présentation et objectifs</a></li>
-<li><a href="#_modalités_de_rendu">2. Modalités de rendu</a></li>
-<li><a href="#_critères_de_notation">3. Critères de notation</a></li>
+<li><a href="#_game_ui">2. <code>game-ui</code></a>
+<ul class="sectlevel2">
+<li><a href="#_ecran_de_combat">2.1. Ecran de combat !</a>
+<ul class="sectlevel3">
+<li><a href="#_le_controller">2.1.1. Le controller</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_cros_origin_sur_battle_api">3. Cros Origin sur Battle-API</a>
+<ul class="sectlevel2">
+<li><a href="#_configuration">3.1. Configuration</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -454,70 +466,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_présentation_et_objectifs"><a class="anchor" href="#_présentation_et_objectifs"></a><a class="link" href="#_présentation_et_objectifs">1. Présentation et objectifs</a></h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Ce document présente les critères de notation du module et les modalités de rendu.</p>
+<p>Le but est de continuer le développement de notre architecture "à la microservice".</p>
+</div>
+<div class="paragraph">
+<p>Nous allons aujourd&#8217;hui :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>continuer (ou commencer) le développpement de notre micro-service de combat !</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/battle-architecture.png" alt="battle architecture">
+</div>
+<div class="title">Figure 1. Notre architecture !</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Pendant ce TP, nous faisons évoluer les TP précédents !
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modalités_de_rendu"><a class="anchor" href="#_modalités_de_rendu"></a><a class="link" href="#_modalités_de_rendu">2. Modalités de rendu</a></h2>
+<h2 id="_game_ui"><a class="anchor" href="#_game_ui"></a><a class="link" href="#_game_ui">2. <code>game-ui</code></a></h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Le rendu se fait via vos repositories Github.</p>
-</div>
-<div class="paragraph">
-<p>Vous devez push votre code directement sur les repositories qui vous sont affectés.</p>
-</div>
-<div class="paragraph">
-<p>Les repositories seront clôturés le 5 avril à 20h. Vous avez donc encore un peu de temps pour finaliser votre projet.</p>
-</div>
-<div class="paragraph">
-<p>Le projet est bien constitué de 4 parties :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>pokemon-type-api</p>
-</li>
-<li>
-<p>trainer-api</p>
-</li>
-<li>
-<p>game-ui</p>
-</li>
-<li>
-<p>battle-api</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Il est attendu, dans chaque composant :</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>le code source</p>
-</li>
-<li>
-<p>les tests</p>
-</li>
-<li>
-<p>une collection postman (à poser dans <code>src/test/resources</code>)</p>
-</li>
-<li>
-<p>un README.md détaillant :</p>
-<div class="ulist">
-<ul>
-<li>
-<p>la configuration</p>
-</li>
-<li>
-<p>le déploiement sur le cloud si cela a été fait (URL d&#8217;accès)</p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
+<div class="sect2">
+<h3 id="_ecran_de_combat"><a class="anchor" href="#_ecran_de_combat"></a><a class="link" href="#_ecran_de_combat">2.1. Ecran de combat !</a></h3>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -525,7 +510,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Le premier tp "handcraft" ne fait pas partie du rendu.
+Cette partie nécessite d&#8217;avoir un projet <code>battle-api</code> complètement fonctionnel.
 </td>
 </tr>
 </table>
@@ -537,110 +522,279 @@ Le premier tp "handcraft" ne fait pas partie du rendu.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Les critères de notation ont été adaptés pour tenir compte de la tenue des cours à distance.
+Cette partie n&#8217;est pas prise en compte dans la notation.
 </td>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Pour vous faciliter le travail, j&#8217;ai développé pour vous un écran simple de combat, ainsi qu&#8217;un javascript (vanilla), qui
+requête en AJAX l&#8217;api <code>/battles</code> et permet de jouer un combat !</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/combat.png" alt="combat">
+</div>
+<div class="title">Figure 2. Un combat en cours !</div>
+</div>
+<div class="paragraph">
+<p>Le JS est disponible ici : <a href="battle.js" target="_blank" rel="noopener">battle.js</a>.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;image de fond est disponible ici : <a href="images/battle_background.png" target="_blank" rel="noopener">battle_background.png</a>.</p>
+</div>
+<div class="paragraph">
+<p>L&#8217;écran de jeu est défini en template mustache via le code suivant :</p>
+</div>
+<div class="listingblock">
+<div class="title">fight.html</div>
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="xml"><span></span><span class="tok-cp">&lt;!doctype html&gt;</span>
+<span class="tok-nt">&lt;html</span> <span class="tok-na">lang=</span><span class="tok-s">&quot;en&quot;</span><span class="tok-nt">&gt;</span>
+<span class="tok-nt">&lt;head&gt;</span>
+    <span class="tok-c">&lt;!-- Required meta tags --&gt;</span>
+    <span class="tok-nt">&lt;meta</span> <span class="tok-na">charset=</span><span class="tok-s">&quot;utf-8&quot;</span><span class="tok-nt">&gt;</span>
+    <span class="tok-nt">&lt;meta</span> <span class="tok-na">name=</span><span class="tok-s">&quot;viewport&quot;</span> <span class="tok-na">content=</span><span class="tok-s">&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;</span><span class="tok-nt">&gt;</span>
+    <span class="tok-nt">&lt;title&gt;</span>Pokemon Manager<span class="tok-nt">&lt;/title&gt;</span>
+
+
+    <span class="tok-nt">&lt;link</span> <span class="tok-na">rel=</span><span class="tok-s">&quot;stylesheet&quot;</span> <span class="tok-na">href=</span><span class="tok-s">&quot;https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css&quot;</span> <span class="tok-na">integrity=</span><span class="tok-s">&quot;sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh&quot;</span> <span class="tok-na">crossorigin=</span><span class="tok-s">&quot;anonymous&quot;</span><span class="tok-nt">&gt;</span>
+    <span class="tok-nt">&lt;link</span> <span class="tok-na">rel=</span><span class="tok-s">&quot;stylesheet&quot;</span> <span class="tok-na">href=</span><span class="tok-s">&quot;https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css&quot;</span><span class="tok-nt">&gt;</span>
+<span class="tok-nt">&lt;/head&gt;</span>
+
+<span class="tok-nt">&lt;body&gt;</span>
+
+<span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;container&quot;</span><span class="tok-nt">&gt;</span>
+    <span class="tok-nt">&lt;h1</span> <span class="tok-na">class=</span><span class="tok-s">&quot;pt-md-5 pb-md-5&quot;</span><span class="tok-nt">&gt;</span>Arena <span class="tok-nt">&lt;img</span> <span class="tok-na">src=</span><span class="tok-s">&quot;/icons/fist.png&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 32px;&quot;</span><span class="tok-nt">/&gt;&lt;/h1&gt;</span>
+
+    <span class="tok-nt">&lt;h2&gt;</span>{{trainerName}} Vs {{opponentName}}<span class="tok-nt">&lt;/h2&gt;</span>
+
+    <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;gameZone&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 800px; height: 480px; position:relative; margin: auto; background: url(&#39;/images/battle_background.png&#39;)&quot;</span><span class="tok-nt">&gt;</span>
+
+        <span class="tok-nt">&lt;img</span> <span class="tok-na">id=</span><span class="tok-s">&quot;{{trainerName}}-pokemon-img&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;position:absolute;  width: 300px; left: 0px; bottom: 0px;&quot;</span><span class="tok-nt">/&gt;</span>
+        <span class="tok-nt">&lt;img</span> <span class="tok-na">id=</span><span class="tok-s">&quot;{{opponentName}}-pokemon-img&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;position:absolute; width: 200px; right: 100px; top: 100px;&quot;</span><span class="tok-nt">/&gt;</span>
+
+        <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card bg-light&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 18rem; position:absolute; bottom:10px; right: 10px; &quot;</span><span class="tok-nt">&gt;</span>
+            <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card-body&quot;</span><span class="tok-nt">&gt;</span>
+                <span class="tok-nt">&lt;h5</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card-title&quot;</span> <span class="tok-na">id=</span><span class="tok-s">&quot;{{trainerName}}-pokemon-name&quot;</span><span class="tok-nt">&gt;&lt;/h5&gt;</span>
+                <span class="tok-nt">&lt;p&gt;</span>
+                    <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;progress&quot;</span><span class="tok-nt">&gt;</span>
+                        <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;progress-bar&quot;</span> <span class="tok-na">id=</span><span class="tok-s">&quot;{{trainerName}}-pokemon-hp&quot;</span> <span class="tok-na">role=</span><span class="tok-s">&quot;progressbar&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 0%;&quot;</span> <span class="tok-na">aria-valuenow=</span><span class="tok-s">&quot;0&quot;</span> <span class="tok-na">aria-valuemin=</span><span class="tok-s">&quot;0&quot;</span> <span class="tok-na">aria-valuemax=</span><span class="tok-s">&quot;100&quot;</span><span class="tok-nt">&gt;&lt;/div&gt;</span>
+                    <span class="tok-nt">&lt;/div&gt;</span>
+                <span class="tok-nt">&lt;/p&gt;</span>
+
+                <span class="tok-nt">&lt;button</span> <span class="tok-na">class=</span><span class="tok-s">&quot;btn btn-danger&quot;</span> <span class="tok-na">id=</span><span class="tok-s">&quot;attack-btn&quot;</span> <span class="tok-na">onclick=</span><span class="tok-s">&quot;playerCommand(&#39;ATTACK&#39;);&quot;</span><span class="tok-nt">&gt;</span>Attack<span class="tok-nt">&lt;/button&gt;</span>
+            <span class="tok-nt">&lt;/div&gt;</span>
+        <span class="tok-nt">&lt;/div&gt;</span>
+
+        <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card bg-light&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 18rem; position:absolute; top: 10px; left: 10px;&quot;</span><span class="tok-nt">&gt;</span>
+            <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card-body&quot;</span><span class="tok-nt">&gt;</span>
+                <span class="tok-nt">&lt;h5</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card-title&quot;</span> <span class="tok-na">id=</span><span class="tok-s">&quot;{{opponentName}}-pokemon-name&quot;</span><span class="tok-nt">&gt;&lt;/h5&gt;</span>
+                <span class="tok-nt">&lt;p&gt;</span>
+                    <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;progress&quot;</span><span class="tok-nt">&gt;</span>
+                        <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;progress-bar&quot;</span> <span class="tok-na">id=</span><span class="tok-s">&quot;{{opponentName}}-pokemon-hp&quot;</span> <span class="tok-na">role=</span><span class="tok-s">&quot;progressbar&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 0%;&quot;</span> <span class="tok-na">aria-valuenow=</span><span class="tok-s">&quot;0&quot;</span> <span class="tok-na">aria-valuemin=</span><span class="tok-s">&quot;0&quot;</span> <span class="tok-na">aria-valuemax=</span><span class="tok-s">&quot;100&quot;</span><span class="tok-nt">&gt;&lt;/div&gt;</span>
+                    <span class="tok-nt">&lt;/div&gt;</span>
+                <span class="tok-nt">&lt;/p&gt;</span>
+            <span class="tok-nt">&lt;/div&gt;</span>
+        <span class="tok-nt">&lt;/div&gt;</span>
+
+    <span class="tok-nt">&lt;/div&gt;</span>
+
+    <span class="tok-nt">&lt;div</span> <span class="tok-na">class=</span><span class="tok-s">&quot;card card-body&quot;</span> <span class="tok-na">id=</span><span class="tok-s">&quot;message&quot;</span> <span class="tok-na">style=</span><span class="tok-s">&quot;width: 800px; margin: auto;&quot;</span><span class="tok-nt">&gt;</span>
+    <span class="tok-nt">&lt;/div&gt;</span>
+
+<span class="tok-nt">&lt;/div&gt;</span>
+
+<span class="tok-nt">&lt;script</span> <span class="tok-na">src=</span><span class="tok-s">&quot;https://code.jquery.com/jquery-3.4.1.min.js&quot;</span> <span class="tok-na">integrity=</span><span class="tok-s">&quot;sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=&quot;</span> <span class="tok-na">crossorigin=</span><span class="tok-s">&quot;anonymous&quot;</span><span class="tok-nt">&gt;&lt;/script&gt;</span>
+
+<span class="tok-nt">&lt;script</span> <span class="tok-na">src=</span><span class="tok-s">&quot;/scripts/battle.js&quot;</span> <span class="tok-na">type=</span><span class="tok-s">&quot;application/ecmascript&quot;</span><span class="tok-nt">&gt;&lt;/script&gt;</span>
+
+<span class="tok-nt">&lt;script</span> <span class="tok-na">type=</span><span class="tok-s">&quot;application/ecmascript&quot;</span><span class="tok-nt">&gt;</span>
+    $( document ).ready(function() {
+        startBattle(&quot;{{trainerName}}&quot;, &quot;{{opponentName}}&quot;);
+    });
+
+<span class="tok-nt">&lt;/script&gt;</span>
+
+<span class="tok-nt">&lt;/body&gt;</span>
+<span class="tok-nt">&lt;/html&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Le template a besoin de 2 variables : <code>trainerName</code> et <code>opponentName</code>.</p>
+</div>
+<div class="paragraph">
+<p>Le fichier <code>battle.js</code> doit être déposé dans <code>src/main/resources/static/scripts</code>.
+L&#8217;image de fond doit être déposée dans <code>src/main/resources/static/images</code>.</p>
+</div>
+<div class="paragraph">
+<p>Le combat utilise <code>Bootstrap</code>, <code>JQuery</code> et <code>Animate.css</code>.</p>
+</div>
+<div class="sect3">
+<h4 id="_le_controller"><a class="anchor" href="#_le_controller"></a><a class="link" href="#_le_controller">2.1.1. Le controller</a></h4>
+<div class="paragraph">
+<p>Le controlleur servant cet écran peut être codé de cette manière :</p>
+</div>
+<div class="listingblock">
+<div class="title">BattleController.java</div>
+<div class="content">
+<pre class="pygments highlight nowrap"><code data-lang="java"><table class="linenotable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><pre><span></span><span class="tok-nd">@GetMapping</span><span class="tok-o">(</span><span class="tok-s">&quot;/fight/{opponent}&quot;</span><span class="tok-o">)</span>
+<span class="tok-kd">public</span> <span class="tok-n">ModelAndView</span> <span class="tok-nf">fight</span><span class="tok-o">(</span><span class="tok-n">Principal</span> <span class="tok-n">principal</span><span class="tok-o">,</span> <span class="tok-nd">@PathVariable</span> <span class="tok-n">String</span> <span class="tok-n">opponent</span><span class="tok-o">){</span>
+    <span class="tok-n">var</span> <span class="tok-n">modelAndView</span> <span class="tok-o">=</span> <span class="tok-k">new</span> <span class="tok-n">ModelAndView</span><span class="tok-o">(</span><span class="tok-s">&quot;fight&quot;</span><span class="tok-o">);</span>
+
+    <span class="tok-n">modelAndView</span><span class="tok-o">.</span><span class="tok-na">addObject</span><span class="tok-o">(</span><span class="tok-s">&quot;trainerName&quot;</span><span class="tok-o">,</span> <span class="tok-n">principal</span><span class="tok-o">.</span><span class="tok-na">getName</span><span class="tok-o">());</span>
+    <span class="tok-n">modelAndView</span><span class="tok-o">.</span><span class="tok-na">addObject</span><span class="tok-o">(</span><span class="tok-s">&quot;opponentName&quot;</span><span class="tok-o">,</span> <span class="tok-n">opponent</span><span class="tok-o">);</span>
+
+    <span class="tok-k">return</span> <span class="tok-n">modelAndView</span><span class="tok-o">;</span>
+<span class="tok-o">}</span>
+</pre></td></tr></table></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>De cette manière, on peut déclencher un combat en se rendant sur l&#8217;URL <a href="http://localhost:9000/fight/Misty" class="bare" target="_blank" rel="noopener">http://localhost:9000/fight/Misty</a></p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_critères_de_notation"><a class="anchor" href="#_critères_de_notation"></a><a class="link" href="#_critères_de_notation">3. Critères de notation</a></h2>
+<h2 id="_cros_origin_sur_battle_api"><a class="anchor" href="#_cros_origin_sur_battle_api"></a><a class="link" href="#_cros_origin_sur_battle_api">3. Cros Origin sur Battle-API</a></h2>
 <div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
+<div class="paragraph">
+<p>Le script <code>battle.js</code> appelle l&#8217;API battle. Cette API est appelée en <code>Cross-Origin</code>.
+Du point de vue du navigateur web (firefox/chrome), l&#8217;origine est composée :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>du scheme (ex: http/https)</p>
+</li>
+<li>
+<p>de l&#8217;hôte (ex: localhost)</p>
+</li>
+<li>
+<p>du port (ex: 9000/8080&#8230;&#8203;)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Lorsqu&#8217;une requête est émise vers une autre origine que celle de la page affichée, le navigateur
+exécute tout d&#8217;abord une requête <code>HEAD</code>, pour demander au serveur s&#8217;il accepte d&#8217;être appelé
+depuis une autre origine que lui-même. C&#8217;est une mécanique de sécurité permettant d&#8217;éviter
+les appels indésirables sur une API.</p>
+</div>
+<div class="paragraph">
+<p>Nous devons donc activer le support du <code>Cross-Origin</code> sur notre API battle, pour qu&#8217;elle
+accepte les requêtes provenant du navigateur web.</p>
+</div>
+<div class="admonitionblock note">
+<table>
 <tr>
-<th class="tableblock halign-left valign-top">API</th>
-<th class="tableblock halign-left valign-top">Fonctionnalité</th>
-<th class="tableblock halign-left valign-top">Points</th>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Nous n&#8217;avons à gérer le <code>Cross-Origin</code> uniquement quand c&#8217;est un navigateur qui est la source d&#8217;une requête.
+Pas besoin de <code>Cross-Origin</code> pour les appels entre APIs.
+</td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pokemon-type-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">types de pokemon traduits (en+fr)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pokemon-type-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">types de pokemon triés</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pokemon-type-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">GET /?types=</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pokemon-type-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TU &amp; Qualité de code / Collection Postman</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">trainer-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gestion des trainers (GET)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">trainer-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gestion des trainers (POST) avec stockage BDD</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">trainer-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">API sécurisée en Basic HTTP login + mot de pase</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">trainer-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TU &amp; Qualité de code / Collection Postman</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">game-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">affichage du pokedex traduit</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">game-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IHM sécurisée (login avec les comptes de trainers)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2.5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">game-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">affichage des trainers et de leurs pokémons</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">game-ui</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TU &amp; Qualité de code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">battle-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gestion des combats (création/attaque)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3.5</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">battle-api</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">TU &amp; Qualité de code / Collection Postman</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-</tr>
-</tbody>
 </table>
+</div>
+<div class="sect2">
+<h3 id="_configuration"><a class="anchor" href="#_configuration"></a><a class="link" href="#_configuration">3.1. Configuration</a></h3>
+<div class="paragraph">
+<p>La configuration du <code>Cross-Origin</code> en Spring se fait en ajoutant l&#8217;annotation <code>@CrossOrigin</code> sur les controlleurs ou méthodes
+à authoriser.
+Ajoutez cette annotation sur le controlleur de votre <code>battle-api</code>.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-03-20 11:17:25 +0100
+Last updated 2020-03-20 11:06:15 +0100
 </div>
 </div>
+<style>
+pre.pygments .hll { background-color: #ffffcc }
+pre.pygments  { background: #f8f8f8; }
+pre.pygments .tok-c { color: #408080; font-style: italic } /* Comment */
+pre.pygments .tok-err { border: 1px solid #FF0000 } /* Error */
+pre.pygments .tok-k { color: #008000; font-weight: bold } /* Keyword */
+pre.pygments .tok-o { color: #666666 } /* Operator */
+pre.pygments .tok-ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+pre.pygments .tok-cm { color: #408080; font-style: italic } /* Comment.Multiline */
+pre.pygments .tok-cp { color: #BC7A00 } /* Comment.Preproc */
+pre.pygments .tok-cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+pre.pygments .tok-c1 { color: #408080; font-style: italic } /* Comment.Single */
+pre.pygments .tok-cs { color: #408080; font-style: italic } /* Comment.Special */
+pre.pygments .tok-gd { color: #A00000 } /* Generic.Deleted */
+pre.pygments .tok-ge { font-style: italic } /* Generic.Emph */
+pre.pygments .tok-gr { color: #FF0000 } /* Generic.Error */
+pre.pygments .tok-gh { color: #000080; font-weight: bold } /* Generic.Heading */
+pre.pygments .tok-gi { color: #00A000 } /* Generic.Inserted */
+pre.pygments .tok-go { color: #888888 } /* Generic.Output */
+pre.pygments .tok-gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+pre.pygments .tok-gs { font-weight: bold } /* Generic.Strong */
+pre.pygments .tok-gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+pre.pygments .tok-gt { color: #0044DD } /* Generic.Traceback */
+pre.pygments .tok-kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+pre.pygments .tok-kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+pre.pygments .tok-kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+pre.pygments .tok-kp { color: #008000 } /* Keyword.Pseudo */
+pre.pygments .tok-kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+pre.pygments .tok-kt { color: #B00040 } /* Keyword.Type */
+pre.pygments .tok-m { color: #666666 } /* Literal.Number */
+pre.pygments .tok-s { color: #BA2121 } /* Literal.String */
+pre.pygments .tok-na { color: #7D9029 } /* Name.Attribute */
+pre.pygments .tok-nb { color: #008000 } /* Name.Builtin */
+pre.pygments .tok-nc { color: #0000FF; font-weight: bold } /* Name.Class */
+pre.pygments .tok-no { color: #880000 } /* Name.Constant */
+pre.pygments .tok-nd { color: #AA22FF } /* Name.Decorator */
+pre.pygments .tok-ni { color: #999999; font-weight: bold } /* Name.Entity */
+pre.pygments .tok-ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+pre.pygments .tok-nf { color: #0000FF } /* Name.Function */
+pre.pygments .tok-nl { color: #A0A000 } /* Name.Label */
+pre.pygments .tok-nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+pre.pygments .tok-nt { color: #008000; font-weight: bold } /* Name.Tag */
+pre.pygments .tok-nv { color: #19177C } /* Name.Variable */
+pre.pygments .tok-ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+pre.pygments .tok-w { color: #bbbbbb } /* Text.Whitespace */
+pre.pygments .tok-mb { color: #666666 } /* Literal.Number.Bin */
+pre.pygments .tok-mf { color: #666666 } /* Literal.Number.Float */
+pre.pygments .tok-mh { color: #666666 } /* Literal.Number.Hex */
+pre.pygments .tok-mi { color: #666666 } /* Literal.Number.Integer */
+pre.pygments .tok-mo { color: #666666 } /* Literal.Number.Oct */
+pre.pygments .tok-sa { color: #BA2121 } /* Literal.String.Affix */
+pre.pygments .tok-sb { color: #BA2121 } /* Literal.String.Backtick */
+pre.pygments .tok-sc { color: #BA2121 } /* Literal.String.Char */
+pre.pygments .tok-dl { color: #BA2121 } /* Literal.String.Delimiter */
+pre.pygments .tok-sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+pre.pygments .tok-s2 { color: #BA2121 } /* Literal.String.Double */
+pre.pygments .tok-se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+pre.pygments .tok-sh { color: #BA2121 } /* Literal.String.Heredoc */
+pre.pygments .tok-si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+pre.pygments .tok-sx { color: #008000 } /* Literal.String.Other */
+pre.pygments .tok-sr { color: #BB6688 } /* Literal.String.Regex */
+pre.pygments .tok-s1 { color: #BA2121 } /* Literal.String.Single */
+pre.pygments .tok-ss { color: #19177C } /* Literal.String.Symbol */
+pre.pygments .tok-bp { color: #008000 } /* Name.Builtin.Pseudo */
+pre.pygments .tok-fm { color: #0000FF } /* Name.Function.Magic */
+pre.pygments .tok-vc { color: #19177C } /* Name.Variable.Class */
+pre.pygments .tok-vg { color: #19177C } /* Name.Variable.Global */
+pre.pygments .tok-vi { color: #19177C } /* Name.Variable.Instance */
+pre.pygments .tok-vm { color: #19177C } /* Name.Variable.Magic */
+pre.pygments .tok-il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   messageStyle: "none",
